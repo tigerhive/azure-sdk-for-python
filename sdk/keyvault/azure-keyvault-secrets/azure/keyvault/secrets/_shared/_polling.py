@@ -75,7 +75,7 @@ class KeyVaultOperationPoller(LROPoller):
         except TypeError: # Was None
             pass
 
-class RecoverDeletedPollingMethod(PollingMethod):
+class KeyVaultPollingMethod(PollingMethod):
     def __init__(self, command, final_resource, finished, interval=2):
         self._command = command
         self._resource = final_resource
