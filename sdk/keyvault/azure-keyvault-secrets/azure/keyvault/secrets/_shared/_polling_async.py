@@ -9,16 +9,18 @@ from typing import TYPE_CHECKING
 
 from azure.core.polling import AsyncPollingMethod
 from azure.core.exceptions import ResourceNotFoundError, HttpResponseError
+
 if TYPE_CHECKING:
     # pylint:disable=ungrouped-imports
     from typing import Any, Callable, Union
 
 logger = logging.getLogger(__name__)
 
+
 class AsyncKeyVaultPollingMethod(AsyncPollingMethod):
-    def __init__(self, finished, interval=2):
-        self._command = None
-        self._resource = None
+    def __init__(self, command, final_resource, finished, interval=2):
+        self._command = command
+        self._resource = final_resource
         self._polling_interval = interval
         self._finished = finished
 
@@ -36,9 +38,8 @@ class AsyncKeyVaultPollingMethod(AsyncPollingMethod):
             else:
                 raise
 
-    def initialize(self, client: "Any", initial_response: str, _: "Callable") -> None:
-        self._command = client
-        self._resource = initial_response
+    def initialize(self, *args: "Any") -> None:
+        pass
 
     async def run(self) -> None:
         try:
