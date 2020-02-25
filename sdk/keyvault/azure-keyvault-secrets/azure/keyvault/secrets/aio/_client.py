@@ -263,9 +263,9 @@ class SecretClient(AsyncKeyVaultClientBase):
 
         polling_method = AsyncKeyVaultPollingMethod(
             # no recovery ID means soft-delete is disabled, in which case we initialize the poller as finished
+            finished=deleted_secret.recovery_id is None,
             command=partial(self.get_deleted_secret, name=name, **kwargs),
             final_resource=deleted_secret,
-            finished=deleted_secret.recovery_id is None,
             interval=polling_interval,
         )
         await polling_method.run()

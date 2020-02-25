@@ -38,9 +38,6 @@ class AsyncKeyVaultPollingMethod(AsyncPollingMethod):
             else:
                 raise
 
-    def initialize(self, *args: "Any") -> None:
-        pass
-
     async def run(self) -> None:
         try:
             while not self.finished():
