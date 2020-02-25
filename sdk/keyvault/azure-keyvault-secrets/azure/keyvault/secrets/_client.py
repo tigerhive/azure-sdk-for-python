@@ -306,14 +306,14 @@ class SecretClient(KeyVaultClientBase):
         )
 
         command = partial(self.get_deleted_secret, name=name, **kwargs)
-        delete_secret_polling_method = KeyVaultPollingMethod(
+        polling_method = KeyVaultPollingMethod(
             # no recovery ID means soft-delete is disabled, in which case we initialize the poller as finished
             finished=deleted_secret.recovery_id is None,
             command=command,
             final_resource=deleted_secret,
             interval=polling_interval,
         )
-        return KeyVaultOperationPoller(delete_secret_polling_method)
+        return KeyVaultOperationPoller(polling_method)
 
     @distributed_trace
     def get_deleted_secret(self, name, **kwargs):
